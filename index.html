@@ -11,7 +11,10 @@
 body{margin:0}
 a{text-decoration:none}
 a:hover{opacity:0.85}
-a:focus-visible{outline:2px solid #8FA2FF;outline-offset:3px}
+a:focus-visible,button:focus-visible{outline:2px solid #8FA2FF;outline-offset:3px}
+input:focus-visible,textarea:focus-visible{outline:2px solid #8FA2FF;outline-offset:2px}
+input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
+.opt:has(input:checked){border-color:#8FA2FF;background:rgba(143,162,255,0.10)}
 </style>
 </head>
 <body>
@@ -295,14 +298,59 @@ a:focus-visible{outline:2px solid #8FA2FF;outline-offset:3px}
 </div>
 
 <div id="contacto" style="max-width: 1120px; margin: 0 auto; padding: 80px 24px 96px; box-sizing: border-box">
-<div style="box-sizing: border-box; background: #121733; border-radius: 16px; padding: 56px 40px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start">
+<div style="box-sizing: border-box; background: #121733; border-radius: 16px; padding: 56px 40px; display: flex; flex-wrap: wrap; gap: 48px">
+<div style="flex: 1 1 280px; display: flex; flex-direction: column; gap: 24px; align-items: flex-start">
 <div style="font-size: 12px; font-weight: 400; letter-spacing: 0.34em; color: #8FA2FF">CONTACTO</div>
-<h2 style="margin: 0; font-size: clamp(30px, 4vw, 40px); font-weight: 300; line-height: 1.15; max-width: 720px">Cuéntanos qué necesita tu empresa</h2>
-<p style="margin: 0; font-size: 18px; line-height: 28px; color: #8A93B8; max-width: 600px">Escríbenos y te respondemos con una propuesta: una plataforma estructurada o una hecha a tu medida.</p>
-<div style="display: flex; flex-wrap: wrap; gap: 16px">
-<a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #8FA2FF; color: #0A0E1F; font-size: 16px; font-weight: 600">[CORREO]</a>
-<a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; border: 1px solid #2B3260; color: #EEF1FF; font-size: 16px">[WHATSAPP]</a>
+<h2 style="margin: 0; font-size: clamp(30px, 4vw, 40px); font-weight: 300; line-height: 1.15">Cuéntanos qué necesita tu empresa</h2>
+<p style="margin: 0; font-size: 18px; line-height: 28px; color: #8A93B8">Déjanos tus datos y lo que tienes en mente. Te respondemos con una propuesta: una plataforma ya creada o una hecha desde cero a tu medida.</p>
 </div>
+<form name="contacto" method="POST" action="/gracias.html" data-netlify="true" netlify-honeypot="bot-field" style="flex: 1.5 1 420px; display: flex; flex-direction: column; gap: 20px">
+<input type="hidden" name="form-name" value="contacto">
+<p style="display: none"><label>No llenar: <input name="bot-field"></label></p>
+<div style="display: flex; flex-wrap: wrap; gap: 20px">
+<div style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 8px">
+<label for="nombre" style="font-size: 13px; line-height: 18px; color: #8A93B8">Nombre *</label>
+<input id="nombre" name="nombre" type="text" placeholder="Tu nombre" autocomplete="name" required style="height: 48px; box-sizing: border-box; width: 100%; background: #0A0E1F; border: 1px solid #2B3260; border-radius: 8px; padding: 0 16px; font-size: 16px; font-family: inherit; color: #EEF1FF">
+</div>
+<div style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 8px">
+<label for="empresa" style="font-size: 13px; line-height: 18px; color: #8A93B8">Empresa</label>
+<input id="empresa" name="empresa" type="text" placeholder="Nombre de tu empresa" autocomplete="organization" style="height: 48px; box-sizing: border-box; width: 100%; background: #0A0E1F; border: 1px solid #2B3260; border-radius: 8px; padding: 0 16px; font-size: 16px; font-family: inherit; color: #EEF1FF">
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 20px">
+<div style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 8px">
+<label for="correo" style="font-size: 13px; line-height: 18px; color: #8A93B8">Correo</label>
+<input id="correo" name="correo" type="email" placeholder="correo@empresa.com" autocomplete="email" style="height: 48px; box-sizing: border-box; width: 100%; background: #0A0E1F; border: 1px solid #2B3260; border-radius: 8px; padding: 0 16px; font-size: 16px; font-family: inherit; color: #EEF1FF">
+</div>
+<div style="flex: 1 1 240px; display: flex; flex-direction: column; gap: 8px">
+<label for="celular" style="font-size: 13px; line-height: 18px; color: #8A93B8">Celular</label>
+<input id="celular" name="celular" type="tel" placeholder="Tu número de celular" autocomplete="tel" style="height: 48px; box-sizing: border-box; width: 100%; background: #0A0E1F; border: 1px solid #2B3260; border-radius: 8px; padding: 0 16px; font-size: 16px; font-family: inherit; color: #EEF1FF">
+</div>
+</div>
+<div style="font-size: 13px; line-height: 18px; color: #8A93B8; margin-top: -8px">Déjanos al menos un correo o un celular para responderte.</div>
+<fieldset style="border: 0; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px">
+<legend style="font-size: 13px; line-height: 18px; color: #8A93B8; padding: 0; margin-bottom: 12px">¿Qué estás buscando?</legend>
+<div style="display: flex; flex-wrap: wrap; gap: 12px">
+<label class="opt" style="flex: 1 1 200px; display: flex; gap: 12px; align-items: flex-start; box-sizing: border-box; padding: 16px; border: 1px solid #2B3260; border-radius: 8px; cursor: pointer">
+<input type="radio" name="interes" value="Plataforma ya creada" checked style="margin: 4px 0 0; accent-color: #8FA2FF">
+<span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 15px; font-weight: 600">Una plataforma ya creada</span><span style="font-size: 13px; line-height: 18px; color: #8A93B8">Contratar una de las que ya existen.</span></span>
+</label>
+<label class="opt" style="flex: 1 1 200px; display: flex; gap: 12px; align-items: flex-start; box-sizing: border-box; padding: 16px; border: 1px solid #2B3260; border-radius: 8px; cursor: pointer">
+<input type="radio" name="interes" value="Plataforma desde cero" style="margin: 4px 0 0; accent-color: #8FA2FF">
+<span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 15px; font-weight: 600">Una desde cero</span><span style="font-size: 13px; line-height: 18px; color: #8A93B8">Crear una a la medida de mi empresa.</span></span>
+</label>
+<label class="opt" style="flex: 1 1 200px; display: flex; gap: 12px; align-items: flex-start; box-sizing: border-box; padding: 16px; border: 1px solid #2B3260; border-radius: 8px; cursor: pointer">
+<input type="radio" name="interes" value="Aún no lo sé" style="margin: 4px 0 0; accent-color: #8FA2FF">
+<span style="display: flex; flex-direction: column; gap: 4px"><span style="font-size: 15px; font-weight: 600">Aún no lo sé</span><span style="font-size: 13px; line-height: 18px; color: #8A93B8">Quiero que me orienten.</span></span>
+</label>
+</div>
+</fieldset>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<label for="mensaje" style="font-size: 13px; line-height: 18px; color: #8A93B8">Cuéntanos qué tienes en mente *</label>
+<textarea id="mensaje" name="mensaje" rows="5" required placeholder="Por ejemplo: qué proceso quieres mejorar, cómo lo manejas hoy, qué plataforma te interesa…" style="box-sizing: border-box; width: 100%; background: #0A0E1F; border: 1px solid #2B3260; border-radius: 8px; padding: 14px 16px; font-size: 16px; line-height: 24px; font-family: inherit; color: #EEF1FF; resize: vertical"></textarea>
+</div>
+<button type="submit" style="align-self: flex-start; min-height: 48px; padding: 0 32px; border-radius: 8px; background: #8FA2FF; color: #0A0E1F; border: 0; font-size: 16px; font-weight: 600; font-family: inherit; cursor: pointer">Enviar</button>
+</form>
 </div>
 </div>
 
@@ -313,5 +361,10 @@ a:focus-visible{outline:2px solid #8FA2FF;outline-offset:3px}
 </div>
 
 </div>
+<script>
+(function(){var f=document.forms['contacto'];if(!f)return;
+function chk(){var m=f.correo,c=f.celular;var ok=m.value.trim()||c.value.trim();m.setCustomValidity(ok?'':'Escribe un correo o un celular');}
+f.addEventListener('input',chk);f.addEventListener('submit',chk);chk();})();
+</script>
 </body>
 </html>

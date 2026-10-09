@@ -13,6 +13,7 @@
 <meta property="og:description" content="Plataformas web estructuradas o hechas a la medida para la operación de tu empresa.">
 <meta name="twitter:card" content="summary_large_image">
 <style>html,body{background:#0A0E1F}</style>
+<script>document.documentElement.className+=' js'</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
@@ -29,6 +30,32 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 @media (max-width:700px){.q-hint{display:block}.demo-side{max-width:none!important;flex-basis:100%!important}}
 .demo-bg{position:absolute;inset:0;background:rgba(5,8,20,0.88)}
 .demo-card{position:relative;width:100%;max-width:1120px;max-height:100%;overflow:auto;box-sizing:border-box;background:#0A0E1F;border:1px solid #2B3260;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:24px;color:#EEF1FF;font-family:'Outfit',sans-serif}
+.deck{display:flex;flex-direction:column;gap:24px}
+.deck .tabs,.deck .ctrl{display:none}
+.deck .stage{display:flex;flex-direction:column;gap:32px}
+.slide{box-sizing:border-box;border:1px solid #2B3260;border-radius:24px;padding:40px;display:flex;flex-direction:column;gap:32px;background:radial-gradient(ellipse 70% 50% at 0% 0%,color-mix(in srgb,var(--ac) 16%,transparent),transparent 70%),#0E1228}
+.js .deck .tabs{display:flex;flex-wrap:wrap;gap:8px}
+.js .deck .ctrl{display:flex;align-items:center;justify-content:center;gap:20px}
+.js .deck .stage{display:grid;gap:0;grid-template-columns:minmax(0,1fr)}
+.deck,.stage,.slide{min-width:0}
+.js .stage{overflow-x:clip;transition:height .4s ease}
+.js .slide{align-self:start;pointer-events:none}
+.js .slide.on{pointer-events:auto}
+.slide>div:last-child{min-width:0;overflow-x:auto}
+.js .slide{grid-area:1/1;opacity:0;visibility:hidden;transform:translateX(40px);transition:opacity .45s ease,transform .45s ease,visibility 0s .45s}
+.js .slide.before{transform:translateX(-40px)}
+.js .slide.on{opacity:1;visibility:visible;transform:none;transition:opacity .45s ease,transform .45s ease}
+.tab{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 18px 0 12px;border-radius:999px;border:1px solid #2B3260;background:transparent;color:#8A93B8;font:inherit;font-size:14px;letter-spacing:.2em;cursor:pointer;transition:all .2s}
+.tab:hover{color:#EEF1FF;border-color:var(--ac)}
+.tab[aria-selected="true"]{color:#EEF1FF;border-color:var(--ac);background:color-mix(in srgb,var(--ac) 14%,transparent)}
+.nav{width:48px;height:48px;border-radius:50%;border:1px solid #2B3260;background:#121733;color:#EEF1FF;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
+.nav:hover{border-color:#8FA2FF;background:rgba(143,162,255,.12)}
+.dots{display:flex;gap:10px}.dots i{width:8px;height:8px;border-radius:50%;background:#2B3260;transition:all .3s;cursor:pointer}
+.dots i.on{width:28px;border-radius:4px;background:var(--ac,#8FA2FF)}
+.count{font-size:13px;letter-spacing:.3em;color:#8A93B8;min-width:64px;text-align:center}
+.tab:focus-visible,.nav:focus-visible{outline:2px solid #8FA2FF;outline-offset:2px}
+@media (max-width:700px){.slide{padding:24px 18px;border-radius:18px}.tab span{display:none}.tab{padding:0 12px}}
+@media (prefers-reduced-motion:reduce){.js .slide,.js .slide.on{transition:none}}
 .opt:has(input:checked){border-color:#8FA2FF;background:rgba(143,162,255,0.10)}
 </style>
 </head>
@@ -137,12 +164,10 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <div style="display: flex; flex-direction: column; gap: 16px">
 <div style="font-size: 12px; font-weight: 400; letter-spacing: 0.34em; color: #8FA2FF">PLATAFORMAS</div>
 <h2 style="margin: 0; font-size: clamp(30px, 4vw, 40px); font-weight: 300; line-height: 1.15; max-width: 720px">Una estrella por cada necesidad</h2>
-<p style="margin: 0; font-size: 18px; line-height: 28px; color: #8A93B8; max-width: 640px">Cada plataforma tiene nombre propio y forma parte de la constelación de Constela.</p>
+<p style="margin: 0; font-size: 18px; line-height: 28px; color: #8A93B8; max-width: 640px">Cada plataforma tiene nombre propio y forma parte de la constelación de Constela. Recórrelas una por una.</p>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 24px">
-
-<div style="flex: 1 1 320px; box-sizing: border-box; background: #121733; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 20px">
-<svg viewBox="0 0 120 120" width="64" height="64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Orbita">
+<div class="deck" id="deck" aria-roledescription="carrusel" aria-label="Plataformas de Constela">
+<div class="tabs" role="tablist" aria-label="Elegir plataforma"><button type="button" role="tab" class="tab" id="tab-orbita" aria-controls="slide-orbita" aria-selected="false" style="--ac: #8FA2FF"><svg viewBox="0 0 120 120" width="28" height="28" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Orbita">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="18" y1="82" x2="36" y2="54"/>
 <line x1="36" y1="54" x2="64" y2="40"/>
@@ -155,16 +180,7 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="92" cy="48" r="3" fill="#E8ECFF"/>
 <circle cx="104" cy="74" r="10" fill="none" stroke="#8FA2FF" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="104" cy="74" r="5.5" fill="#8FA2FF"/>
-</svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 24px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">ORBITA</div>
-<div style="align-self: flex-start; font-size: 12px; padding: 4px 12px; border: 1px solid #2B3260; border-radius: 999px; color: #8A93B8">Estructurada</div>
-</div>
-<p style="margin: 0; font-size: 16px; line-height: 24px; color: #8A93B8">Administra la nómina y los saldos bancarios de tu empresa en un solo lugar, con información clara y ordenada.</p>
-</div>
-
-<div style="flex: 1 1 320px; box-sizing: border-box; background: #121733; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 20px">
-<svg viewBox="0 0 120 120" width="64" height="64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Nexus">
+</svg><span>ORBITA</span></button><button type="button" role="tab" class="tab" id="tab-nexus" aria-controls="slide-nexus" aria-selected="false" style="--ac: #5EEAD4"><svg viewBox="0 0 120 120" width="28" height="28" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Nexus">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="60" y1="60" x2="24" y2="34"/>
 <line x1="60" y1="60" x2="96" y2="30"/>
@@ -177,16 +193,7 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="98" cy="92" r="4.5" fill="#E8ECFF"/>
 <circle cx="60" cy="60" r="11" fill="none" stroke="#5EEAD4" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="60" cy="60" r="6" fill="#5EEAD4"/>
-</svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 24px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">NEXUS</div>
-<div style="align-self: flex-start; font-size: 12px; padding: 4px 12px; border: 1px solid #2B3260; border-radius: 999px; color: #8A93B8">A tu medida</div>
-</div>
-<p style="margin: 0; font-size: 16px; line-height: 24px; color: #8A93B8">Tableros e indicadores (KPIs) diseñados a la medida de cada cliente, para decidir con información clara y actualizada.</p>
-</div>
-
-<div style="flex: 1 1 320px; box-sizing: border-box; background: #121733; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 20px">
-<svg viewBox="0 0 120 120" width="64" height="64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Astra">
+</svg><span>NEXUS</span></button><button type="button" role="tab" class="tab" id="tab-astra" aria-controls="slide-astra" aria-selected="false" style="--ac: #FFC25A"><svg viewBox="0 0 120 120" width="28" height="28" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Astra">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="60" y1="20" x2="24" y2="94"/>
 <line x1="60" y1="20" x2="96" y2="94"/>
@@ -198,16 +205,7 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="60" cy="70" r="3" fill="#E8ECFF"/>
 <circle cx="60" cy="20" r="11" fill="none" stroke="#FFC25A" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="60" cy="20" r="6" fill="#FFC25A"/>
-</svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 24px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">ASTRA</div>
-<div style="align-self: flex-start; font-size: 12px; padding: 4px 12px; border: 1px solid #2B3260; border-radius: 999px; color: #8A93B8">Estructurada</div>
-</div>
-<p style="margin: 0; font-size: 16px; line-height: 24px; color: #8A93B8">Seguimiento de trámites y expedientes por etapas, con visibilidad del avance y de los responsables en todo momento.</p>
-</div>
-
-<div style="flex: 1 1 320px; box-sizing: border-box; background: #121733; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 20px">
-<svg viewBox="0 0 120 120" width="64" height="64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zenith">
+</svg><span>ASTRA</span></button><button type="button" role="tab" class="tab" id="tab-zenith" aria-controls="slide-zenith" aria-selected="false" style="--ac: #FF8A6B"><svg viewBox="0 0 120 120" width="28" height="28" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zenith">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="60" y1="104" x2="42" y2="78"/>
 <line x1="42" y1="78" x2="74" y2="54"/>
@@ -220,16 +218,7 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="52" cy="34" r="3.5" fill="#E8ECFF"/>
 <circle cx="62" cy="16" r="10" fill="none" stroke="#FF8A6B" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="62" cy="16" r="5.5" fill="#FF8A6B"/>
-</svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 24px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">ZENITH</div>
-<div style="align-self: flex-start; font-size: 12px; padding: 4px 12px; border: 1px solid #2B3260; border-radius: 999px; color: #8A93B8">Estructurada</div>
-</div>
-<p style="margin: 0; font-size: 16px; line-height: 24px; color: #8A93B8">Control de inventarios para comercios y empresas, con existencias, entradas y salidas siempre al día.</p>
-</div>
-
-<div style="flex: 1 1 320px; box-sizing: border-box; background: #121733; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 20px">
-<svg viewBox="0 0 120 120" width="64" height="64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cosmos">
+</svg><span>ZENITH</span></button><button type="button" role="tab" class="tab" id="tab-cosmos" aria-controls="slide-cosmos" aria-selected="false" style="--ac: #B79CFF"><svg viewBox="0 0 120 120" width="28" height="28" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cosmos">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="60" y1="20" x2="90" y2="38"/>
 <line x1="90" y1="38" x2="94" y2="74"/>
@@ -245,16 +234,7 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="60" cy="60" r="2.5" fill="#E8ECFF" fill-opacity="0.7"/>
 <circle cx="60" cy="20" r="10" fill="none" stroke="#B79CFF" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="60" cy="20" r="5.5" fill="#B79CFF"/>
-</svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 24px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">COSMOS</div>
-<div style="align-self: flex-start; font-size: 12px; padding: 4px 12px; border: 1px solid #2B3260; border-radius: 999px; color: #8A93B8">Estructurada</div>
-</div>
-<p style="margin: 0; font-size: 16px; line-height: 24px; color: #8A93B8">Control administrativo integral: cotizaciones, ingresos y egresos, y catálogos de clientes y proveedores en una sola plataforma.</p>
-</div>
-
-<div style="flex: 1 1 320px; box-sizing: border-box; background: #121733; border-radius: 16px; padding: 32px; display: flex; flex-direction: column; gap: 20px">
-<svg viewBox="0 0 120 120" width="64" height="64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quasar">
+</svg><span>COSMOS</span></button><button type="button" role="tab" class="tab" id="tab-quasar" aria-controls="slide-quasar" aria-selected="false" style="--ac: #FF7AC6"><svg viewBox="0 0 120 120" width="28" height="28" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quasar">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="60" y1="60" x2="60" y2="14"/>
 <line x1="60" y1="60" x2="60" y2="106"/>
@@ -267,22 +247,12 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="96" cy="78" r="3" fill="#E8ECFF"/>
 <circle cx="60" cy="60" r="14" fill="none" stroke="#FF7AC6" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="60" cy="60" r="8" fill="#FF7AC6"/>
-</svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 24px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">QUASAR</div>
-<div style="align-self: flex-start; font-size: 12px; padding: 4px 12px; border: 1px solid #2B3260; border-radius: 999px; color: #8A93B8">A tu medida</div>
-</div>
-<p style="margin: 0; font-size: 16px; line-height: 24px; color: #8A93B8">Integra la información de tus distintos sistemas y fuentes de datos en una sola vista confiable.</p>
-</div>
-
-</div>
-</div>
-
-<div id="demo-orbita" class="demo" role="dialog" aria-label="Ejemplo de Orbita">
-<a class="demo-bg" href="#plataformas" aria-label="Cerrar"></a>
-<div class="demo-card">
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
-<div style="display: flex; align-items: center; gap: 16px"><svg role="img" aria-label="Logo Orbita" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="56" height="56">
+</svg><span>QUASAR</span></button></div>
+<div class="stage">
+<section class="slide" id="slide-orbita" role="tabpanel" aria-roledescription="diapositiva" aria-label="ORBITA" aria-labelledby="tab-orbita" style="--ac: #8FA2FF">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px">
+<svg viewBox="0 0 120 120" width="96" height="96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Orbita">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="18" y1="82" x2="36" y2="54"/>
 <line x1="36" y1="54" x2="64" y2="40"/>
@@ -296,11 +266,18 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="104" cy="74" r="10" fill="none" stroke="#8FA2FF" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="104" cy="74" r="5.5" fill="#8FA2FF"/>
 </svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 12px; letter-spacing: 0.34em; color: #B79CFF">VISTA DE EJEMPLO</div>
-<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px"><div style="font-size: 28px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">ORBITA</div><div style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</div></div></div></div>
-<a href="#plataformas" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border: 1px solid #2B3260; border-radius: 8px; color: #EEF1FF; font-size: 15px">Cerrar</a>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h3 style="margin: 0; font-size: clamp(36px, 6vw, 56px); font-weight: 300; letter-spacing: 0.28em; line-height: 1">ORBITA</h3>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px"><span style="font-size: 12px; padding: 4px 12px; border: 1px solid #8FA2FF; border-radius: 999px; color: #8FA2FF">Estructurada</span><span style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</span></div>
 </div>
+</div>
+<a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #8FA2FF; color: #0A0E1F; font-size: 16px; font-weight: 600">Pedir Orbita</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px 48px">
+<p style="flex: 1 1 380px; margin: 0; font-size: 22px; line-height: 34px; font-weight: 300; color: #EEF1FF">Administra la nómina y los saldos bancarios de tu empresa en un solo lugar, con información clara y ordenada.</p>
+<ul style="flex: 1 1 380px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 16px; line-height: 26px; color: #C5CBE8"><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #8FA2FF; margin-top: 11px"></span><span>Nómina semanal por empresa y por empleado</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #8FA2FF; margin-top: 11px"></span><span>Percepciones y deducciones configurables</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #8FA2FF; margin-top: 11px"></span><span>Saldos por banco y por cuenta</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #8FA2FF; margin-top: 11px"></span><span>Reportes listos para revisar y compartir</span></li></ul>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-wrap: wrap; border: 1px solid #2B3260; border-radius: 16px; overflow: hidden; background: #0A0E1F">
 <div class="demo-side" style="flex: 1 1 210px; max-width: 250px; box-sizing: border-box; background: #121733; padding: 22px 12px; display: flex; flex-direction: column; gap: 24px">
 <div style="display: flex; align-items: center; gap: 10px; padding: 0 6px"><svg role="img" aria-label="Logo Orbita" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="44" height="44">
@@ -333,12 +310,69 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #B79CFF; color: #0A0E1F; font-size: 16px; font-weight: 600">Pedir esta plataforma</a>
 </div>
 </div>
+</section>
+<section class="slide" id="slide-nexus" role="tabpanel" aria-roledescription="diapositiva" aria-label="NEXUS" aria-labelledby="tab-nexus" style="--ac: #5EEAD4">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px">
+<svg viewBox="0 0 120 120" width="96" height="96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Nexus">
+<g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
+<line x1="60" y1="60" x2="24" y2="34"/>
+<line x1="60" y1="60" x2="96" y2="30"/>
+<line x1="60" y1="60" x2="30" y2="94"/>
+<line x1="60" y1="60" x2="98" y2="92"/>
+</g>
+<circle cx="24" cy="34" r="3.5" fill="#E8ECFF"/>
+<circle cx="96" cy="30" r="3" fill="#E8ECFF"/>
+<circle cx="30" cy="94" r="3" fill="#E8ECFF"/>
+<circle cx="98" cy="92" r="4.5" fill="#E8ECFF"/>
+<circle cx="60" cy="60" r="11" fill="none" stroke="#5EEAD4" stroke-opacity="0.45" stroke-width="1.5"/>
+<circle cx="60" cy="60" r="6" fill="#5EEAD4"/>
+</svg>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h3 style="margin: 0; font-size: clamp(36px, 6vw, 56px); font-weight: 300; letter-spacing: 0.28em; line-height: 1">NEXUS</h3>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px"><span style="font-size: 12px; padding: 4px 12px; border: 1px solid #5EEAD4; border-radius: 999px; color: #5EEAD4">A tu medida</span><span style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</span></div>
 </div>
-<div id="demo-astra" class="demo" role="dialog" aria-label="Ejemplo de Astra">
-<a class="demo-bg" href="#plataformas" aria-label="Cerrar"></a>
-<div class="demo-card">
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
-<div style="display: flex; align-items: center; gap: 16px"><svg role="img" aria-label="Logo Astra" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="56" height="56">
+</div>
+<a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #5EEAD4; color: #0A0E1F; font-size: 16px; font-weight: 600">Cotizar Nexus</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px 48px">
+<p style="flex: 1 1 380px; margin: 0; font-size: 22px; line-height: 34px; font-weight: 300; color: #EEF1FF">Tableros e indicadores (KPIs) diseñados a la medida de cada cliente, para decidir con información clara y actualizada.</p>
+<ul style="flex: 1 1 380px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 16px; line-height: 26px; color: #C5CBE8"><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #5EEAD4; margin-top: 11px"></span><span>Indicadores definidos junto con tu equipo</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #5EEAD4; margin-top: 11px"></span><span>Vistas por área: ventas, operación y finanzas</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #5EEAD4; margin-top: 11px"></span><span>Comparativos y tendencias por periodo</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #5EEAD4; margin-top: 11px"></span><span>Datos actualizados desde tus propias fuentes</span></li></ul>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<div style="box-sizing: border-box; border: 1px solid #2B3260; border-radius: 16px; background: radial-gradient(90% 60% at 80% 0%, rgba(94, 234, 212, 0.10), transparent 70%), #0A0E1F; padding: 22px; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px"><div style="display: flex; align-items: center; gap: 12px"><svg role="img" aria-label="Logo Nexus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="40" height="40">
+<g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
+<line x1="60" y1="60" x2="24" y2="34"/>
+<line x1="60" y1="60" x2="96" y2="30"/>
+<line x1="60" y1="60" x2="30" y2="94"/>
+<line x1="60" y1="60" x2="98" y2="92"/>
+</g>
+<circle cx="24" cy="34" r="3.5" fill="#E8ECFF"/>
+<circle cx="96" cy="30" r="3" fill="#E8ECFF"/>
+<circle cx="30" cy="94" r="3" fill="#E8ECFF"/>
+<circle cx="98" cy="92" r="4.5" fill="#E8ECFF"/>
+<circle cx="60" cy="60" r="11" fill="none" stroke="#5EEAD4" stroke-opacity="0.45" stroke-width="1.5"/>
+<circle cx="60" cy="60" r="6" fill="#5EEAD4"/>
+</svg>
+<div style="display: flex; flex-direction: column; gap: 6px"><div style="font-size: 16px; font-weight: 300; letter-spacing: 0.24em; line-height: 1">NEXUS</div><div style="font-size: 9px; letter-spacing: 0.3em; color: #8A93B8">BY CONSTELA</div></div></div><div style="display: flex; align-items: center; gap: 10px"><div style="width: 30px; height: 30px; box-sizing: border-box; border: 1px dashed #8A93B8; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 8px; letter-spacing: 0.08em; color: #8A93B8; background: #0A0E1F">LOGO</div><div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em">TU EMPRESA</div></div></div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; gap: 8px"><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; background: rgba(94, 234, 212, 0.14); color: #EEF1FF; font-weight: 600; border-color: rgba(94, 234, 212, 0.45)">Resumen</span><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; color: #8A93B8">Ventas</span><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; color: #8A93B8">Operación</span><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; color: #8A93B8">Finanzas</span></div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px"><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; background: rgba(94, 234, 212, 0.14); color: #EEF1FF; font-weight: 600; border-color: rgba(94, 234, 212, 0.45)">Mes</span><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; color: #8A93B8">Trimestre</span><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; color: #8A93B8">Año</span></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px"><div style="flex: 1 1 280px; min-width: 0; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px"><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 15px; font-weight: 600">Ventas contra la meta</div><div style="font-size: 12px; color: #8A93B8">Avance del mes</div></div><svg viewBox="0 0 200 130" width="100%" style="max-width: 280px; align-self: center" role="img" aria-label="Medidor de avance de ejemplo"><path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="#0A0E1F" stroke-width="16" stroke-linecap="round"/><path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="#5EEAD4" stroke-width="16" stroke-linecap="round" stroke-dasharray="206.1 251.3"/><text x="100" y="92" text-anchor="middle" font-size="34" font-weight="300" fill="#EEF1FF">82%</text><text x="100" y="112" text-anchor="middle" font-size="10" fill="#8A93B8">$1.64 M de $2.0 M</text><text x="100" y="127" text-anchor="middle" font-size="9" fill="#8A93B8">Faltan 9 días</text></svg><div style="font-size: 12px; color: #8A93B8; text-align: center">Vas por encima del ritmo del mes pasado</div></div><div style="flex: 1.8 1 320px; display: flex; flex-wrap: wrap; gap: 14px"><div style="flex: 1 1 calc(50% - 7px); min-width: 130px; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px"><div style="font-size: 12px; color: #8A93B8">Ventas</div><svg width="60" height="28" viewBox="0 0 60 28" aria-hidden="true"><rect x="0" y="14.0" width="7" height="12.0" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="10" y="10.4" width="7" height="15.6" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="20" y="11.6" width="7" height="14.4" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="30" y="8.0" width="7" height="18.0" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="40" y="6.2" width="7" height="19.8" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="50" y="2.0" width="7" height="24.0" rx="2" fill="#5EEAD4" fill-opacity="1"/></svg></div><div style="font-size: 26px; font-weight: 300; line-height: 1; color: #EEF1FF">$1.64 M</div><div style="font-size: 12px; color: #5EEAD4">▲ 8.2%</div></div><div style="flex: 1 1 calc(50% - 7px); min-width: 130px; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px"><div style="font-size: 12px; color: #8A93B8">Pedidos</div><svg width="60" height="28" viewBox="0 0 60 28" aria-hidden="true"><rect x="0" y="10.0" width="7" height="16.0" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="10" y="7.3" width="7" height="18.7" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="20" y="8.4" width="7" height="17.6" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="30" y="4.7" width="7" height="21.3" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="40" y="3.6" width="7" height="22.4" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="50" y="2.0" width="7" height="24.0" rx="2" fill="#5EEAD4" fill-opacity="1"/></svg></div><div style="font-size: 26px; font-weight: 300; line-height: 1; color: #EEF1FF">428</div><div style="font-size: 12px; color: #5EEAD4">▲ 5.1%</div></div><div style="flex: 1 1 calc(50% - 7px); min-width: 130px; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px"><div style="font-size: 12px; color: #8A93B8">Ticket promedio</div><svg width="60" height="28" viewBox="0 0 60 28" aria-hidden="true"><rect x="0" y="5.3" width="7" height="20.7" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="10" y="6.1" width="7" height="19.9" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="20" y="4.5" width="7" height="21.5" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="30" y="3.2" width="7" height="22.8" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="40" y="3.7" width="7" height="22.3" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="50" y="2.0" width="7" height="24.0" rx="2" fill="#5EEAD4" fill-opacity="1"/></svg></div><div style="font-size: 26px; font-weight: 300; line-height: 1; color: #EEF1FF">$3,830</div><div style="font-size: 12px; color: #5EEAD4">▲ 2.9%</div></div><div style="flex: 1 1 calc(50% - 7px); min-width: 130px; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px"><div style="font-size: 12px; color: #8A93B8">Clientes nuevos</div><svg width="60" height="28" viewBox="0 0 60 28" aria-hidden="true"><rect x="0" y="16.8" width="7" height="9.2" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="10" y="13.1" width="7" height="12.9" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="20" y="14.9" width="7" height="11.1" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="30" y="9.4" width="7" height="16.6" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="40" y="7.5" width="7" height="18.5" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="50" y="2.0" width="7" height="24.0" rx="2" fill="#5EEAD4" fill-opacity="1"/></svg></div><div style="font-size: 26px; font-weight: 300; line-height: 1; color: #EEF1FF">37</div><div style="font-size: 12px; color: #5EEAD4">▲ 12%</div></div></div></div>
+<div style="display: flex; flex-wrap: wrap; gap: 14px"><div style="flex: 1 1 280px; min-width: 0; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px"><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 15px; font-weight: 600">Embudo comercial</div><div style="font-size: 12px; color: #8A93B8">De prospecto a cierre</div></div><svg viewBox="0 0 300 168" width="100%" role="img" aria-label="Embudo de ejemplo"><polygon points="10,0 290,0 265,38 35,38" fill="#5EEAD4" fill-opacity="0.95"/><text x="150" y="24" text-anchor="middle" font-size="12" fill="#0A0E1F" font-weight="600">Prospectos · 1,200</text><polygon points="35,42 265,42 240,80 60,80" fill="#5EEAD4" fill-opacity="0.78"/><text x="150" y="66" text-anchor="middle" font-size="12" fill="#0A0E1F" font-weight="600">Cotizados · 640</text><polygon points="60,84 240,84 214,122 86,122" fill="#5EEAD4" fill-opacity="0.61"/><text x="150" y="108" text-anchor="middle" font-size="12" fill="#EEF1FF" font-weight="600">En negociación · 310</text><polygon points="86,126 214,126 200,164 100,164" fill="#5EEAD4" fill-opacity="0.44"/><text x="150" y="150" text-anchor="middle" font-size="12" fill="#EEF1FF" font-weight="600">Cerrados · 128</text></svg></div><div style="flex: 1 1 260px; min-width: 0; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px"><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 15px; font-weight: 600">Actividad por día</div><div style="font-size: 12px; color: #8A93B8">Últimas 5 semanas</div></div><div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px"><div style="text-align: center; font-size: 11px; color: #8A93B8">L</div><div style="text-align: center; font-size: 11px; color: #8A93B8">M</div><div style="text-align: center; font-size: 11px; color: #8A93B8">M</div><div style="text-align: center; font-size: 11px; color: #8A93B8">J</div><div style="text-align: center; font-size: 11px; color: #8A93B8">V</div><div style="text-align: center; font-size: 11px; color: #8A93B8">S</div><div style="text-align: center; font-size: 11px; color: #8A93B8">D</div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.41"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.61"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.71"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.51"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.80"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.32"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.22"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.51"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.71"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.90"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.61"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.80"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.41"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.22"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.61"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.80"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 1.00"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.71"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.90"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.51"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.32"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.51"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.71"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.80"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.61"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 1.00"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.41"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.22"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.71"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.90"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 1.00"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.80"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.90"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.51"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.32"></div></div></div><div style="flex: 1 1 240px; min-width: 0; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 16px"><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 15px; font-weight: 600">Ranking por zona</div><div style="font-size: 12px; color: #8A93B8">Ventas del mes</div></div><div style="display: flex; flex-direction: column; gap: 14px"><div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 13px"><span>Zona Norte</span><span style="color: #8A93B8">$520 K</span></div><div style="height: 8px; border-radius: 4px; background: #0A0E1F"><div style="width: 100%; height: 8px; border-radius: 4px; background: #5EEAD4"></div></div></div><div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 13px"><span>Centro</span><span style="color: #8A93B8">$410 K</span></div><div style="height: 8px; border-radius: 4px; background: #0A0E1F"><div style="width: 78%; height: 8px; border-radius: 4px; background: #5EEAD4"></div></div></div><div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 13px"><span>Sur</span><span style="color: #8A93B8">$290 K</span></div><div style="height: 8px; border-radius: 4px; background: #0A0E1F"><div style="width: 55%; height: 8px; border-radius: 4px; background: #5EEAD4"></div></div></div><div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 13px"><span>En línea</span><span style="color: #8A93B8">$240 K</span></div><div style="height: 8px; border-radius: 4px; background: #0A0E1F"><div style="width: 46%; height: 8px; border-radius: 4px; background: #5EEAD4"></div></div></div></div></div></div>
+</div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 24px; border-radius: 12px; background: rgba(183, 156, 255, 0.10); border: 1px solid rgba(183, 156, 255, 0.35)">
+<p style="margin: 0; flex: 1 1 360px; font-size: 15px; line-height: 24px; color: #C5CBE8"><strong style="color: #EEF1FF; font-weight: 600">Plataforma a tu medida.</strong> Ejemplo de lo que podemos construir: los indicadores, las vistas y los filtros se definen con tu equipo. Datos ficticios.</p>
+<a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #5EEAD4; color: #0A0E1F; font-size: 16px; font-weight: 600">Cotizar la mía</a>
+</div>
+</div>
+</section>
+<section class="slide" id="slide-astra" role="tabpanel" aria-roledescription="diapositiva" aria-label="ASTRA" aria-labelledby="tab-astra" style="--ac: #FFC25A">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px">
+<svg viewBox="0 0 120 120" width="96" height="96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Astra">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="60" y1="20" x2="24" y2="94"/>
 <line x1="60" y1="20" x2="96" y2="94"/>
@@ -351,11 +385,18 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="60" cy="20" r="11" fill="none" stroke="#FFC25A" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="60" cy="20" r="6" fill="#FFC25A"/>
 </svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 12px; letter-spacing: 0.34em; color: #B79CFF">VISTA DE EJEMPLO</div>
-<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px"><div style="font-size: 28px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">ASTRA</div><div style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</div></div></div></div>
-<a href="#plataformas" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border: 1px solid #2B3260; border-radius: 8px; color: #EEF1FF; font-size: 15px">Cerrar</a>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h3 style="margin: 0; font-size: clamp(36px, 6vw, 56px); font-weight: 300; letter-spacing: 0.28em; line-height: 1">ASTRA</h3>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px"><span style="font-size: 12px; padding: 4px 12px; border: 1px solid #FFC25A; border-radius: 999px; color: #FFC25A">Estructurada</span><span style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</span></div>
 </div>
+</div>
+<a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #FFC25A; color: #0A0E1F; font-size: 16px; font-weight: 600">Pedir Astra</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px 48px">
+<p style="flex: 1 1 380px; margin: 0; font-size: 22px; line-height: 34px; font-weight: 300; color: #EEF1FF">Seguimiento de trámites y expedientes por etapas, con visibilidad del avance y de los responsables en todo momento.</p>
+<ul style="flex: 1 1 380px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 16px; line-height: 26px; color: #C5CBE8"><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FFC25A; margin-top: 11px"></span><span>Expedientes organizados por cliente</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FFC25A; margin-top: 11px"></span><span>Etapas del proceso a tu medida</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FFC25A; margin-top: 11px"></span><span>Responsable, fecha y estatus de cada trámite</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FFC25A; margin-top: 11px"></span><span>Pendientes y avance a la vista</span></li></ul>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-wrap: wrap; border: 1px solid #2B3260; border-radius: 16px; overflow: hidden; background: #0A0E1F">
 <div class="demo-side" style="flex: 1 1 210px; max-width: 250px; box-sizing: border-box; background: #121733; padding: 22px 12px; display: flex; flex-direction: column; gap: 24px">
 <div style="display: flex; align-items: center; gap: 10px; padding: 0 6px"><svg role="img" aria-label="Logo Astra" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="44" height="44">
@@ -387,12 +428,11 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #B79CFF; color: #0A0E1F; font-size: 16px; font-weight: 600">Pedir esta plataforma</a>
 </div>
 </div>
-</div>
-<div id="demo-zenith" class="demo" role="dialog" aria-label="Ejemplo de Zenith">
-<a class="demo-bg" href="#plataformas" aria-label="Cerrar"></a>
-<div class="demo-card">
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
-<div style="display: flex; align-items: center; gap: 16px"><svg role="img" aria-label="Logo Zenith" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="56" height="56">
+</section>
+<section class="slide" id="slide-zenith" role="tabpanel" aria-roledescription="diapositiva" aria-label="ZENITH" aria-labelledby="tab-zenith" style="--ac: #FF8A6B">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px">
+<svg viewBox="0 0 120 120" width="96" height="96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Zenith">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="60" y1="104" x2="42" y2="78"/>
 <line x1="42" y1="78" x2="74" y2="54"/>
@@ -406,11 +446,18 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="62" cy="16" r="10" fill="none" stroke="#FF8A6B" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="62" cy="16" r="5.5" fill="#FF8A6B"/>
 </svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 12px; letter-spacing: 0.34em; color: #B79CFF">VISTA DE EJEMPLO</div>
-<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px"><div style="font-size: 28px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">ZENITH</div><div style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</div></div></div></div>
-<a href="#plataformas" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border: 1px solid #2B3260; border-radius: 8px; color: #EEF1FF; font-size: 15px">Cerrar</a>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h3 style="margin: 0; font-size: clamp(36px, 6vw, 56px); font-weight: 300; letter-spacing: 0.28em; line-height: 1">ZENITH</h3>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px"><span style="font-size: 12px; padding: 4px 12px; border: 1px solid #FF8A6B; border-radius: 999px; color: #FF8A6B">Estructurada</span><span style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</span></div>
 </div>
+</div>
+<a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #FF8A6B; color: #0A0E1F; font-size: 16px; font-weight: 600">Pedir Zenith</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px 48px">
+<p style="flex: 1 1 380px; margin: 0; font-size: 22px; line-height: 34px; font-weight: 300; color: #EEF1FF">Control de inventarios para comercios y empresas, con existencias, entradas y salidas siempre al día.</p>
+<ul style="flex: 1 1 380px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 16px; line-height: 26px; color: #C5CBE8"><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FF8A6B; margin-top: 11px"></span><span>Catálogo de productos y proveedores</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FF8A6B; margin-top: 11px"></span><span>Registro de entradas y salidas</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FF8A6B; margin-top: 11px"></span><span>Existencias actualizadas en todo momento</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FF8A6B; margin-top: 11px"></span><span>Reportes de movimientos e inventario</span></li></ul>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-wrap: wrap; border: 1px solid #2B3260; border-radius: 16px; overflow: hidden; background: #0A0E1F">
 <div class="demo-side" style="flex: 1 1 210px; max-width: 250px; box-sizing: border-box; background: #121733; padding: 22px 12px; display: flex; flex-direction: column; gap: 24px">
 <div style="display: flex; align-items: center; gap: 10px; padding: 0 6px"><svg role="img" aria-label="Logo Zenith" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="44" height="44">
@@ -443,12 +490,11 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #B79CFF; color: #0A0E1F; font-size: 16px; font-weight: 600">Pedir esta plataforma</a>
 </div>
 </div>
-</div>
-<div id="demo-cosmos" class="demo" role="dialog" aria-label="Ejemplo de Cosmos">
-<a class="demo-bg" href="#plataformas" aria-label="Cerrar"></a>
-<div class="demo-card">
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
-<div style="display: flex; align-items: center; gap: 16px"><svg role="img" aria-label="Logo Cosmos" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="56" height="56">
+</section>
+<section class="slide" id="slide-cosmos" role="tabpanel" aria-roledescription="diapositiva" aria-label="COSMOS" aria-labelledby="tab-cosmos" style="--ac: #B79CFF">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px">
+<svg viewBox="0 0 120 120" width="96" height="96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cosmos">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="60" y1="20" x2="90" y2="38"/>
 <line x1="90" y1="38" x2="94" y2="74"/>
@@ -465,11 +511,18 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="60" cy="20" r="10" fill="none" stroke="#B79CFF" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="60" cy="20" r="5.5" fill="#B79CFF"/>
 </svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 12px; letter-spacing: 0.34em; color: #B79CFF">VISTA DE EJEMPLO</div>
-<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px"><div style="font-size: 28px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">COSMOS</div><div style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</div></div></div></div>
-<a href="#plataformas" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border: 1px solid #2B3260; border-radius: 8px; color: #EEF1FF; font-size: 15px">Cerrar</a>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h3 style="margin: 0; font-size: clamp(36px, 6vw, 56px); font-weight: 300; letter-spacing: 0.28em; line-height: 1">COSMOS</h3>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px"><span style="font-size: 12px; padding: 4px 12px; border: 1px solid #B79CFF; border-radius: 999px; color: #B79CFF">Estructurada</span><span style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</span></div>
 </div>
+</div>
+<a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #B79CFF; color: #0A0E1F; font-size: 16px; font-weight: 600">Pedir Cosmos</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px 48px">
+<p style="flex: 1 1 380px; margin: 0; font-size: 22px; line-height: 34px; font-weight: 300; color: #EEF1FF">Control administrativo integral: cotizaciones, ingresos y egresos, y catálogos de clientes y proveedores en una sola plataforma.</p>
+<ul style="flex: 1 1 380px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 16px; line-height: 26px; color: #C5CBE8"><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #B79CFF; margin-top: 11px"></span><span>Cotizaciones con seguimiento de estatus</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #B79CFF; margin-top: 11px"></span><span>Ingresos y egresos por categoría</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #B79CFF; margin-top: 11px"></span><span>Catálogos de clientes y proveedores</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #B79CFF; margin-top: 11px"></span><span>Resumen financiero del periodo</span></li></ul>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
 <div style="display: flex; flex-wrap: wrap; border: 1px solid #2B3260; border-radius: 16px; overflow: hidden; background: #0A0E1F">
 <div class="demo-side" style="flex: 1 1 210px; max-width: 250px; box-sizing: border-box; background: #121733; padding: 22px 12px; display: flex; flex-direction: column; gap: 24px">
 <div style="display: flex; align-items: center; gap: 10px; padding: 0 6px"><svg role="img" aria-label="Logo Cosmos" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="44" height="44">
@@ -505,64 +558,11 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #B79CFF; color: #0A0E1F; font-size: 16px; font-weight: 600">Pedir esta plataforma</a>
 </div>
 </div>
-</div>
-<div id="demo-nexus" class="demo" role="dialog" aria-label="Ejemplo de Nexus">
-<a class="demo-bg" href="#plataformas" aria-label="Cerrar"></a>
-<div class="demo-card">
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
-<div style="display: flex; align-items: center; gap: 16px"><svg role="img" aria-label="Logo Nexus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="56" height="56">
-<g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
-<line x1="60" y1="60" x2="24" y2="34"/>
-<line x1="60" y1="60" x2="96" y2="30"/>
-<line x1="60" y1="60" x2="30" y2="94"/>
-<line x1="60" y1="60" x2="98" y2="92"/>
-</g>
-<circle cx="24" cy="34" r="3.5" fill="#E8ECFF"/>
-<circle cx="96" cy="30" r="3" fill="#E8ECFF"/>
-<circle cx="30" cy="94" r="3" fill="#E8ECFF"/>
-<circle cx="98" cy="92" r="4.5" fill="#E8ECFF"/>
-<circle cx="60" cy="60" r="11" fill="none" stroke="#5EEAD4" stroke-opacity="0.45" stroke-width="1.5"/>
-<circle cx="60" cy="60" r="6" fill="#5EEAD4"/>
-</svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 12px; letter-spacing: 0.34em; color: #5EEAD4">VISTA DE EJEMPLO</div>
-<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px"><div style="font-size: 28px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">NEXUS</div><div style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</div></div></div></div>
-<a href="#plataformas" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border: 1px solid #2B3260; border-radius: 8px; color: #EEF1FF; font-size: 15px">Cerrar</a>
-</div>
-<div style="box-sizing: border-box; border: 1px solid #2B3260; border-radius: 16px; background: radial-gradient(90% 60% at 80% 0%, rgba(94, 234, 212, 0.10), transparent 70%), #0A0E1F; padding: 22px; display: flex; flex-direction: column; gap: 18px">
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px"><div style="display: flex; align-items: center; gap: 12px"><svg role="img" aria-label="Logo Nexus" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="40" height="40">
-<g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
-<line x1="60" y1="60" x2="24" y2="34"/>
-<line x1="60" y1="60" x2="96" y2="30"/>
-<line x1="60" y1="60" x2="30" y2="94"/>
-<line x1="60" y1="60" x2="98" y2="92"/>
-</g>
-<circle cx="24" cy="34" r="3.5" fill="#E8ECFF"/>
-<circle cx="96" cy="30" r="3" fill="#E8ECFF"/>
-<circle cx="30" cy="94" r="3" fill="#E8ECFF"/>
-<circle cx="98" cy="92" r="4.5" fill="#E8ECFF"/>
-<circle cx="60" cy="60" r="11" fill="none" stroke="#5EEAD4" stroke-opacity="0.45" stroke-width="1.5"/>
-<circle cx="60" cy="60" r="6" fill="#5EEAD4"/>
-</svg>
-<div style="display: flex; flex-direction: column; gap: 6px"><div style="font-size: 16px; font-weight: 300; letter-spacing: 0.24em; line-height: 1">NEXUS</div><div style="font-size: 9px; letter-spacing: 0.3em; color: #8A93B8">BY CONSTELA</div></div></div><div style="display: flex; align-items: center; gap: 10px"><div style="width: 30px; height: 30px; box-sizing: border-box; border: 1px dashed #8A93B8; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 8px; letter-spacing: 0.08em; color: #8A93B8; background: #0A0E1F">LOGO</div><div style="font-size: 13px; font-weight: 600; letter-spacing: 0.08em">TU EMPRESA</div></div></div>
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
-<div style="display: flex; flex-wrap: wrap; gap: 8px"><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; background: rgba(94, 234, 212, 0.14); color: #EEF1FF; font-weight: 600; border-color: rgba(94, 234, 212, 0.45)">Resumen</span><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; color: #8A93B8">Ventas</span><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; color: #8A93B8">Operación</span><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; color: #8A93B8">Finanzas</span></div>
-<div style="display: flex; flex-wrap: wrap; gap: 8px"><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; background: rgba(94, 234, 212, 0.14); color: #EEF1FF; font-weight: 600; border-color: rgba(94, 234, 212, 0.45)">Mes</span><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; color: #8A93B8">Trimestre</span><span style="display: inline-flex; align-items: center; min-height: 34px; box-sizing: border-box; padding: 0 16px; border: 1px solid #2B3260; border-radius: 999px; font-size: 13px; white-space: nowrap; color: #8A93B8">Año</span></div>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 14px"><div style="flex: 1 1 280px; min-width: 0; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 8px"><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 15px; font-weight: 600">Ventas contra la meta</div><div style="font-size: 12px; color: #8A93B8">Avance del mes</div></div><svg viewBox="0 0 200 130" width="100%" style="max-width: 280px; align-self: center" role="img" aria-label="Medidor de avance de ejemplo"><path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="#0A0E1F" stroke-width="16" stroke-linecap="round"/><path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="#5EEAD4" stroke-width="16" stroke-linecap="round" stroke-dasharray="206.1 251.3"/><text x="100" y="92" text-anchor="middle" font-size="34" font-weight="300" fill="#EEF1FF">82%</text><text x="100" y="112" text-anchor="middle" font-size="10" fill="#8A93B8">$1.64 M de $2.0 M</text><text x="100" y="127" text-anchor="middle" font-size="9" fill="#8A93B8">Faltan 9 días</text></svg><div style="font-size: 12px; color: #8A93B8; text-align: center">Vas por encima del ritmo del mes pasado</div></div><div style="flex: 1.8 1 320px; display: flex; flex-wrap: wrap; gap: 14px"><div style="flex: 1 1 calc(50% - 7px); min-width: 130px; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px"><div style="font-size: 12px; color: #8A93B8">Ventas</div><svg width="60" height="28" viewBox="0 0 60 28" aria-hidden="true"><rect x="0" y="14.0" width="7" height="12.0" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="10" y="10.4" width="7" height="15.6" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="20" y="11.6" width="7" height="14.4" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="30" y="8.0" width="7" height="18.0" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="40" y="6.2" width="7" height="19.8" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="50" y="2.0" width="7" height="24.0" rx="2" fill="#5EEAD4" fill-opacity="1"/></svg></div><div style="font-size: 26px; font-weight: 300; line-height: 1; color: #EEF1FF">$1.64 M</div><div style="font-size: 12px; color: #5EEAD4">▲ 8.2%</div></div><div style="flex: 1 1 calc(50% - 7px); min-width: 130px; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px"><div style="font-size: 12px; color: #8A93B8">Pedidos</div><svg width="60" height="28" viewBox="0 0 60 28" aria-hidden="true"><rect x="0" y="10.0" width="7" height="16.0" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="10" y="7.3" width="7" height="18.7" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="20" y="8.4" width="7" height="17.6" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="30" y="4.7" width="7" height="21.3" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="40" y="3.6" width="7" height="22.4" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="50" y="2.0" width="7" height="24.0" rx="2" fill="#5EEAD4" fill-opacity="1"/></svg></div><div style="font-size: 26px; font-weight: 300; line-height: 1; color: #EEF1FF">428</div><div style="font-size: 12px; color: #5EEAD4">▲ 5.1%</div></div><div style="flex: 1 1 calc(50% - 7px); min-width: 130px; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px"><div style="font-size: 12px; color: #8A93B8">Ticket promedio</div><svg width="60" height="28" viewBox="0 0 60 28" aria-hidden="true"><rect x="0" y="5.3" width="7" height="20.7" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="10" y="6.1" width="7" height="19.9" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="20" y="4.5" width="7" height="21.5" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="30" y="3.2" width="7" height="22.8" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="40" y="3.7" width="7" height="22.3" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="50" y="2.0" width="7" height="24.0" rx="2" fill="#5EEAD4" fill-opacity="1"/></svg></div><div style="font-size: 26px; font-weight: 300; line-height: 1; color: #EEF1FF">$3,830</div><div style="font-size: 12px; color: #5EEAD4">▲ 2.9%</div></div><div style="flex: 1 1 calc(50% - 7px); min-width: 130px; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 10px"><div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px"><div style="font-size: 12px; color: #8A93B8">Clientes nuevos</div><svg width="60" height="28" viewBox="0 0 60 28" aria-hidden="true"><rect x="0" y="16.8" width="7" height="9.2" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="10" y="13.1" width="7" height="12.9" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="20" y="14.9" width="7" height="11.1" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="30" y="9.4" width="7" height="16.6" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="40" y="7.5" width="7" height="18.5" rx="2" fill="#5EEAD4" fill-opacity="0.4"/><rect x="50" y="2.0" width="7" height="24.0" rx="2" fill="#5EEAD4" fill-opacity="1"/></svg></div><div style="font-size: 26px; font-weight: 300; line-height: 1; color: #EEF1FF">37</div><div style="font-size: 12px; color: #5EEAD4">▲ 12%</div></div></div></div>
-<div style="display: flex; flex-wrap: wrap; gap: 14px"><div style="flex: 1 1 280px; min-width: 0; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px"><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 15px; font-weight: 600">Embudo comercial</div><div style="font-size: 12px; color: #8A93B8">De prospecto a cierre</div></div><svg viewBox="0 0 300 168" width="100%" role="img" aria-label="Embudo de ejemplo"><polygon points="10,0 290,0 265,38 35,38" fill="#5EEAD4" fill-opacity="0.95"/><text x="150" y="24" text-anchor="middle" font-size="12" fill="#0A0E1F" font-weight="600">Prospectos · 1,200</text><polygon points="35,42 265,42 240,80 60,80" fill="#5EEAD4" fill-opacity="0.78"/><text x="150" y="66" text-anchor="middle" font-size="12" fill="#0A0E1F" font-weight="600">Cotizados · 640</text><polygon points="60,84 240,84 214,122 86,122" fill="#5EEAD4" fill-opacity="0.61"/><text x="150" y="108" text-anchor="middle" font-size="12" fill="#EEF1FF" font-weight="600">En negociación · 310</text><polygon points="86,126 214,126 200,164 100,164" fill="#5EEAD4" fill-opacity="0.44"/><text x="150" y="150" text-anchor="middle" font-size="12" fill="#EEF1FF" font-weight="600">Cerrados · 128</text></svg></div><div style="flex: 1 1 260px; min-width: 0; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 14px"><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 15px; font-weight: 600">Actividad por día</div><div style="font-size: 12px; color: #8A93B8">Últimas 5 semanas</div></div><div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px"><div style="text-align: center; font-size: 11px; color: #8A93B8">L</div><div style="text-align: center; font-size: 11px; color: #8A93B8">M</div><div style="text-align: center; font-size: 11px; color: #8A93B8">M</div><div style="text-align: center; font-size: 11px; color: #8A93B8">J</div><div style="text-align: center; font-size: 11px; color: #8A93B8">V</div><div style="text-align: center; font-size: 11px; color: #8A93B8">S</div><div style="text-align: center; font-size: 11px; color: #8A93B8">D</div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.41"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.61"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.71"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.51"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.80"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.32"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.22"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.51"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.71"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.90"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.61"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.80"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.41"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.22"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.61"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.80"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 1.00"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.71"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.90"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.51"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.32"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.51"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.71"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.80"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.61"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 1.00"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.41"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.22"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.71"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.90"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 1.00"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.80"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.90"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.51"></div><div style="aspect-ratio: 1; border-radius: 4px; background: #5EEAD4; opacity: 0.32"></div></div></div><div style="flex: 1 1 240px; min-width: 0; box-sizing: border-box; background: #121733; border-radius: 12px; padding: 18px; display: flex; flex-direction: column; gap: 16px"><div style="display: flex; flex-direction: column; gap: 4px"><div style="font-size: 15px; font-weight: 600">Ranking por zona</div><div style="font-size: 12px; color: #8A93B8">Ventas del mes</div></div><div style="display: flex; flex-direction: column; gap: 14px"><div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 13px"><span>Zona Norte</span><span style="color: #8A93B8">$520 K</span></div><div style="height: 8px; border-radius: 4px; background: #0A0E1F"><div style="width: 100%; height: 8px; border-radius: 4px; background: #5EEAD4"></div></div></div><div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 13px"><span>Centro</span><span style="color: #8A93B8">$410 K</span></div><div style="height: 8px; border-radius: 4px; background: #0A0E1F"><div style="width: 78%; height: 8px; border-radius: 4px; background: #5EEAD4"></div></div></div><div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 13px"><span>Sur</span><span style="color: #8A93B8">$290 K</span></div><div style="height: 8px; border-radius: 4px; background: #0A0E1F"><div style="width: 55%; height: 8px; border-radius: 4px; background: #5EEAD4"></div></div></div><div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 13px"><span>En línea</span><span style="color: #8A93B8">$240 K</span></div><div style="height: 8px; border-radius: 4px; background: #0A0E1F"><div style="width: 46%; height: 8px; border-radius: 4px; background: #5EEAD4"></div></div></div></div></div></div>
-</div>
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 24px; border-radius: 12px; background: rgba(183, 156, 255, 0.10); border: 1px solid rgba(183, 156, 255, 0.35)">
-<p style="margin: 0; flex: 1 1 360px; font-size: 15px; line-height: 24px; color: #C5CBE8"><strong style="color: #EEF1FF; font-weight: 600">Plataforma a tu medida.</strong> Ejemplo de lo que podemos construir: los indicadores, las vistas y los filtros se definen con tu equipo. Datos ficticios.</p>
-<a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #5EEAD4; color: #0A0E1F; font-size: 16px; font-weight: 600">Cotizar la mía</a>
-</div>
-</div>
-</div>
-<div id="demo-quasar" class="demo" role="dialog" aria-label="Ejemplo de Quasar">
-<a class="demo-bg" href="#plataformas" aria-label="Cerrar"></a>
-<div class="demo-card">
-<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
-<div style="display: flex; align-items: center; gap: 16px"><svg role="img" aria-label="Logo Quasar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="56" height="56">
+</section>
+<section class="slide" id="slide-quasar" role="tabpanel" aria-roledescription="diapositiva" aria-label="QUASAR" aria-labelledby="tab-quasar" style="--ac: #FF7AC6">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 24px">
+<svg viewBox="0 0 120 120" width="96" height="96" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quasar">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
 <line x1="60" y1="60" x2="60" y2="14"/>
 <line x1="60" y1="60" x2="60" y2="106"/>
@@ -576,11 +576,18 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <circle cx="60" cy="60" r="14" fill="none" stroke="#FF7AC6" stroke-opacity="0.45" stroke-width="1.5"/>
 <circle cx="60" cy="60" r="8" fill="#FF7AC6"/>
 </svg>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 12px; letter-spacing: 0.34em; color: #FF7AC6">VISTA DE EJEMPLO</div>
-<div style="display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 14px"><div style="font-size: 28px; font-weight: 300; letter-spacing: 0.3em; line-height: 1">QUASAR</div><div style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</div></div></div></div>
-<a href="#plataformas" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0 20px; border: 1px solid #2B3260; border-radius: 8px; color: #EEF1FF; font-size: 15px">Cerrar</a>
+<div style="display: flex; flex-direction: column; gap: 14px">
+<h3 style="margin: 0; font-size: clamp(36px, 6vw, 56px); font-weight: 300; letter-spacing: 0.28em; line-height: 1">QUASAR</h3>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 12px"><span style="font-size: 12px; padding: 4px 12px; border: 1px solid #FF7AC6; border-radius: 999px; color: #FF7AC6">A tu medida</span><span style="font-size: 11px; letter-spacing: 0.34em; color: #8A93B8">BY CONSTELA</span></div>
 </div>
+</div>
+<a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #FF7AC6; color: #0A0E1F; font-size: 16px; font-weight: 600">Cotizar Quasar</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 24px 48px">
+<p style="flex: 1 1 380px; margin: 0; font-size: 22px; line-height: 34px; font-weight: 300; color: #EEF1FF">Integra la información de tus distintos sistemas y fuentes de datos en una sola vista confiable.</p>
+<ul style="flex: 1 1 380px; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; font-size: 16px; line-height: 26px; color: #C5CBE8"><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FF7AC6; margin-top: 11px"></span><span>Conexión con los sistemas que ya usas</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FF7AC6; margin-top: 11px"></span><span>Datos unificados y validados</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FF7AC6; margin-top: 11px"></span><span>Estado de cada conexión a la vista</span></li><li style="display: flex; gap: 12px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 50%; background: #FF7AC6; margin-top: 11px"></span><span>Una sola fuente confiable para tus reportes</span></li></ul>
+</div>
+<div style="display: flex; flex-direction: column; gap: 14px">
 <div style="box-sizing: border-box; border: 1px solid #2B3260; border-radius: 16px; background-color: #0A0E1F; background-image: radial-gradient(#2B3260 1px, transparent 1px); background-size: 22px 22px; padding: 22px; display: flex; flex-direction: column; gap: 18px">
 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px"><div style="display: flex; align-items: center; gap: 12px"><svg role="img" aria-label="Logo Quasar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="40" height="40">
 <g stroke="#E8ECFF" stroke-opacity="0.55" stroke-width="1.5" stroke-linecap="round" fill="none">
@@ -617,6 +624,15 @@ input::placeholder,textarea::placeholder{color:#8A93B8;opacity:1}
 <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 24px; border-radius: 12px; background: rgba(183, 156, 255, 0.10); border: 1px solid rgba(183, 156, 255, 0.35)">
 <p style="margin: 0; flex: 1 1 360px; font-size: 15px; line-height: 24px; color: #C5CBE8"><strong style="color: #EEF1FF; font-weight: 600">Plataforma a tu medida.</strong> Ejemplo de lo que podemos construir: las fuentes de datos y los destinos se definen según los sistemas que uses. Datos ficticios.</p>
 <a href="#contacto" style="display: inline-flex; align-items: center; justify-content: center; min-height: 48px; padding: 0 28px; border-radius: 8px; background: #FF7AC6; color: #0A0E1F; font-size: 16px; font-weight: 600">Cotizar la mía</a>
+</div>
+</div>
+</section>
+</div>
+<div class="ctrl">
+<button type="button" class="nav" id="prev" aria-label="Plataforma anterior"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+<div class="dots" id="dots" aria-hidden="true"></div>
+<div class="count" id="count" aria-live="polite">01 / 06</div>
+<button type="button" class="nav" id="next" aria-label="Plataforma siguiente"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
 </div>
 </div>
 </div>
@@ -870,6 +886,32 @@ var rt;
 addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){init();if(reduce)frame(0)},150)});
 if(reduce)addEventListener('scroll',function(){frame(0)},{passive:true});
 init();requestAnimationFrame(frame);
+})();
+(function(){
+var d=document.getElementById('deck');if(!d)return;
+var tabs=[].slice.call(d.querySelectorAll('.tab')),sl=[].slice.call(d.querySelectorAll('.slide')),
+dots=d.querySelector('#dots'),cnt=d.querySelector('#count'),n=sl.length,cur=0;
+tabs.forEach(function(t,i){var e=document.createElement('i');e.onclick=function(){go(i)};dots.appendChild(e);t.onclick=function(){go(i)}});
+var st0=d.querySelector('.stage');function fit(){st0.style.height=sl[cur].offsetHeight+'px'}
+addEventListener('resize',fit);addEventListener('load',fit);
+function go(i){cur=(i+n)%n;
+sl.forEach(function(s,j){s.classList.toggle('on',j===cur);s.classList.toggle('before',j<cur);s.setAttribute('aria-hidden',j===cur?'false':'true')});
+tabs.forEach(function(t,j){t.setAttribute('aria-selected',j===cur);t.tabIndex=j===cur?0:-1});
+[].forEach.call(dots.children,function(e,j){e.classList.toggle('on',j===cur)});
+d.style.setProperty('--ac',tabs[cur].style.getPropertyValue('--ac'));
+fit();cnt.textContent=('0'+(cur+1)).slice(-2)+' / '+('0'+n).slice(-2);}
+d.querySelector('#prev').onclick=function(){go(cur-1)};
+d.querySelector('#next').onclick=function(){go(cur+1)};
+d.querySelector('.tabs').addEventListener('keydown',function(e){if(e.key==='ArrowRight'){go(cur+1);tabs[cur].focus()}if(e.key==='ArrowLeft'){go(cur-1);tabs[cur].focus()}});
+document.addEventListener('keydown',function(e){
+if((e.key!=='ArrowRight'&&e.key!=='ArrowLeft')||/INPUT|TEXTAREA|SELECT/.test((e.target||{}).tagName||''))return;
+var r=d.getBoundingClientRect();if(r.top>innerHeight*.6||r.bottom<innerHeight*.3)return;
+go(cur+(e.key==='ArrowRight'?1:-1));});
+var x0=null,y0=null,st=d.querySelector('.stage');
+st.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+st.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;x0=null;
+if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)go(cur+(dx<0?1:-1));},{passive:true});
+go(0);
 })();
 </script>
 </body>
